@@ -2,6 +2,8 @@ const key = '004cc253176c45a686b155843242202';
 let weather = null;
 let isFahrenheit = false;
 async function getWeather(country = "London") { 
+    weather = null; 
+    clearWeatherDisplay();
     const countryName = `http://api.weatherapi.com/v1/forecast.json?key=${key}&q=${country}&days=3&aqi=no&alerts=no`; 
     const response = await fetch(countryName);
     weather = await response.json(); 
@@ -14,6 +16,7 @@ function changeTemperature() {
     document.getElementById("ftoc").addEventListener("click", (e) => { 
         e.target.classList.toggle("celsius");
         isFahrenheit = !isFahrenheit;
+        clearWeatherDisplay();
         displayWeather(weather);
     })
 }
@@ -49,36 +52,14 @@ async function displayWeather(weatherData) {
         tempAfterTomorrow = weatherData.forecast.forecastday[2].day.avgtemp_f; 
     }
     
-    //today
-    console.log(weatherData.current.condition.text);
-    console.log(weatherData.current.feelslike_c);
-    console.log(weatherData.forecast.forecastday[1]);
-
-    const todayIcon = weatherData.current.condition.icon;
-    const todayText = weatherData.current.condition.text; 
-    const todayHumidity = weatherData.current.humidity; 
-    const currentDate = weatherData.forecast.forecastday[0].date;
-
-    //tomorrow 
-    const tomorrowIcon = weatherData.forecast.forecastday[1].day.condition.icon; 
-    const tomorrowText = weatherData.forecast.forecastday[1].day.condition.text;
-    const tomorrowHumidity = weatherData.forecast.forecastday[1].day.avghumidity; 
-    const tomorrowDate = weatherData.forecast.forecastday[1].date;
-    console.log(weatherData.forecast.forecastday[1].day.avghumidity);
-
-    //day After Tomorrow 
-    const dayAfterIcon = weatherData.forecast.forecastday[2].day.condition.icon;
-    const dayAfterText = weatherData.forecast.forecastday[2].day.condition.text; 
-    const dayAfterHumidity = weatherData.forecast.forecastday[2].day.avghumidity; 
-    const dayAfterDate = weatherData.forecast.forecastday[2].date;
 
     // Adding to DOM 
 
-    // Create the main container
+    
     const mainContainer = document.createElement('div');
     mainContainer.id = 'mainWeatherContainer';
     
-    // Define a base class for day containers
+    
     const dayContainerBaseClass = 'dayWeatherContainer';
 
     // Today's weather container
@@ -114,14 +95,23 @@ async function displayWeather(weatherData) {
         <p>Humidity: ${weatherData.forecast.forecastday[2].day.avghumidity}%</p>
     `;
 
-    // Append each day's container to the main container
+    
     mainContainer.appendChild(todayContainer);
     mainContainer.appendChild(tomorrowContainer);
     mainContainer.appendChild(dayAfterTomorrowContainer);
     
-    // Append the main container to the body
+    
     document.body.appendChild(mainContainer);
 
+}
+function clearWeatherDisplay() {
+    const mainContainer = document.getElementById('mainWeatherContainer');
+    
+    if (mainContainer) { 
+        document.body.removeChild(mainContainer);
+    } else {
+        console.log('mainWeatherContainer does not exist in the DOM.');
+    }
 }
 
 getCountry();

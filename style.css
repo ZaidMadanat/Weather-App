@@ -24,8 +24,8 @@ body {
     justify-self: center;
     margin-top: 10px;
     display: flex;
+    min-width: 95vw;
 }
- 
 .search button {
     justify-self: center;
     align-self: center;
@@ -49,6 +49,7 @@ body {
 .convertTemp { 
     justify-self: center;
     align-self: center;
+    margin-left: auto;
     text-align: center;
 }
 .convertTemp button { 
@@ -70,8 +71,47 @@ body {
     justify-content: center; 
     align-content: center;
     text-align: center;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
+#mainWeatherContainer p { 
+    font-size: 1.3rem;
+}
+#mainWeatherContainer img { 
+    width: 80px; 
+    height: 80px;
+}
+
 .dayWeatherContainer { 
     width: 200px; 
     height: 200px;
+}
+@media only screen and (max-width: 600px) {
+    body {
+        background-size: cover; 
+    }
+    
+    .search input[type=text] {
+        width: 100%; 
+        margin: 0; 
+        border-radius: 0; 
+    }
+
+    .search, .convertTemp {
+        margin: 0 10px; 
+    }
+
+    .dayWeatherContainer {
+        width: 100%; 
+        height: auto; 
+    }
+
+    #mainWeatherContainer {
+        flex-direction: column; 
+    }
+
+    .convertTemp button, .celsius {
+        
+        padding: 10px; 
+        font-size: 16px; 
+    }
 }
